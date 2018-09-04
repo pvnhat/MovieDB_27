@@ -6,5 +6,4 @@ public class Constants {
 
     public static final String API_KEY = "?api_key=" + BuildConfig.MOVIEDB_API_KEY;
     public static final String BASE_URL = "https://api.themoviedb.org/3/";
-
 }
