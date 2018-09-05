@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">MovieDB_27</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="title_detail">Film Detail</string>
+    <string name="title_genre">Genre</string>
+    <string name="title_actor">Actor</string>
+    <string name="title_producer">Producer</string>
+    <string name="title_favorite">Favorite</string>
 </resources>

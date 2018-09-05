@@ -1,7 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     >
-</android.support.constraint.ConstraintLayout>
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.framgia.moviedb_27.screen.main.MainViewModel"
+            />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <android.support.v4.widget.DrawerLayout
+            android:id="@+id/layout_drawer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_black"
+            >
+            <android.support.v4.view.ViewPager
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_150"
+                />
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/layout_slide"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                />
+            <android.support.design.widget.NavigationView
+                android:id="@+id/navigation_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:background="@color/color_white"
+                app:headerLayout="@layout/header"
+                app:itemIconTint="@color/color_orange_600"
+                app:itemTextColor="@color/color_black"
+                app:menu="@menu/menu_navigation"
+                />
+        </android.support.v4.widget.DrawerLayout>
+    </android.support.constraint.ConstraintLayout>
+</layout>
