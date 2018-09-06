@@ -2,6 +2,7 @@ package com.framgia.moviedb_27.data.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.framgia.moviedb_27.utils.Constants;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
@@ -67,7 +68,8 @@ public class Movie {
     /**
      * No args constructor for use in serialization
      */
-    public Movie() {
+    public String getImageUrl() {
+        return Constants.BASE_IMAGE_LINK + getPosterPath();
     }
 
     /**

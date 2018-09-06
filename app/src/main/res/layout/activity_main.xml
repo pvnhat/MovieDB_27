@@ -2,6 +2,7 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools"
     >
 
     <data>
@@ -14,25 +15,206 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/color_grey_800"
         >
+
         <android.support.v4.widget.DrawerLayout
             android:id="@+id/layout_drawer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/color_black"
             >
-            <android.support.v4.view.ViewPager
-                android:id="@+id/view_pager"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_150"
-                />
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/layout_slide"
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                />
+                >
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/view_pager"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_150"
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
+                    <android.support.constraint.ConstraintLayout
+                        android:id="@+id/layout_popular"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_210"
+                        app:layout_constraintTop_toBottomOf="@id/view_pager"
+                        >
+                        <ImageView
+                            android:layout_width="@dimen/dp_15"
+                            android:layout_height="@dimen/dp_30"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:background="@color/color_orange_600"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/dp_30"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:text="@string/title_popular"
+                            android:textColor="@color/color_white"
+                            android:textSize="@dimen/sp_15"
+                            android:textStyle="bold"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            />
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/dp_40"
+                            android:background="@android:color/transparent"
+                            android:text="@string/title_load_more"
+                            android:textColor="@color/color_white"
+                            android:textSize="@dimen/sp_10"
+                            app:layout_constraintRight_toRightOf="parent"
+                            />
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recycleview_popular"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_170"
+                            android:layout_margin="@dimen/dp_5"
+                            android:orientation="horizontal"
+                            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            bind:recyclerAdapter="@{viewModel.movieAdapterPopular}"
+                            />
+                    </android.support.constraint.ConstraintLayout>
+                    <android.support.constraint.ConstraintLayout
+                        android:id="@+id/layout_top_rate"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_210"
+                        android:layout_marginTop="@dimen/dp_15"
+                        app:layout_constraintTop_toBottomOf="@id/layout_popular"
+                        >
+                        <ImageView
+                            android:layout_width="@dimen/dp_15"
+                            android:layout_height="@dimen/dp_30"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:background="@color/color_orange_600"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/dp_30"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:text="@string/title_top_rate"
+                            android:textColor="@color/color_white"
+                            android:textSize="@dimen/sp_15"
+                            android:textStyle="bold"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            />
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/dp_40"
+                            android:background="@android:color/transparent"
+                            android:text="@string/title_load_more"
+                            android:textColor="@color/color_white"
+                            android:textSize="@dimen/sp_10"
+                            app:layout_constraintRight_toRightOf="parent"
+                            />
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recycleview_top_rate"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_170"
+                            android:layout_margin="@dimen/dp_5"
+                            android:orientation="horizontal"
+                            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            bind:recyclerAdapter="@{viewModel.movieAdapterTopRate}"
+                            />
+                    </android.support.constraint.ConstraintLayout>
+                    <android.support.constraint.ConstraintLayout
+                        android:id="@+id/layout_up_comming"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_210"
+                        android:layout_marginTop="@dimen/dp_15"
+                        app:layout_constraintTop_toBottomOf="@id/layout_top_rate"
+                        >
+                        <ImageView
+                            android:layout_width="@dimen/dp_15"
+                            android:layout_height="@dimen/dp_30"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:background="@color/color_orange_600"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/dp_30"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:text="@string/title_up_coming"
+                            android:textColor="@color/color_white"
+                            android:textSize="@dimen/sp_15"
+                            android:textStyle="bold"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            />
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/dp_40"
+                            android:background="@android:color/transparent"
+                            android:text="@string/title_load_more"
+                            android:textColor="@color/color_white"
+                            android:textSize="@dimen/sp_10"
+                            app:layout_constraintRight_toRightOf="parent"
+                            />
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recycleview_up_comming"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_170"
+                            android:layout_margin="@dimen/dp_5"
+                            android:orientation="horizontal"
+                            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            bind:recyclerAdapter="@{viewModel.movieAdapterUpcoming}"
+                            />
+                    </android.support.constraint.ConstraintLayout>
+                    <android.support.constraint.ConstraintLayout
+                        android:id="@+id/layout_now_playing"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_210"
+                        app:layout_constraintTop_toBottomOf="@id/layout_up_comming"
+                        >
+                        <ImageView
+                            android:layout_width="@dimen/dp_15"
+                            android:layout_height="@dimen/dp_30"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:background="@color/color_orange_600"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/dp_30"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:text="@string/title_now_playing"
+                            android:textColor="@color/color_white"
+                            android:textSize="@dimen/sp_15"
+                            android:textStyle="bold"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            />
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/dp_40"
+                            android:background="@android:color/transparent"
+                            android:text="@string/title_load_more"
+                            android:textColor="@color/color_white"
+                            android:textSize="@dimen/sp_10"
+                            app:layout_constraintRight_toRightOf="parent"
+                            />
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recycleview_now_playing"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_170"
+                            android:layout_margin="@dimen/dp_5"
+                            android:orientation="horizontal"
+                            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            bind:recyclerAdapter="@{viewModel.movieAdapterNowplaying}"
+                            />
+                    </android.support.constraint.ConstraintLayout>
+
+                </android.support.constraint.ConstraintLayout>
+
+            </ScrollView>
             <android.support.design.widget.NavigationView
                 android:id="@+id/navigation_view"
                 android:layout_width="wrap_content"

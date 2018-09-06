@@ -5,17 +5,17 @@
         android:title="@string/title_detail">
         <menu>
             <item
-                android:icon="@drawable/ic_start"
+                android:icon="@drawable/ic_genre"
                 android:id="@+id/button_genre"
                 android:title="@string/title_genre"/>
             <item
-                android:icon="@drawable/ic_start"
+                android:icon="@drawable/ic_action"
                 android:id="@+id/button_actor"
                 android:title="@string/title_actor"/>
         </menu>
     </item>
     <item
-        android:icon="@drawable/ic_start"
+        android:icon="@drawable/ic_heart"
         android:id="@+id/button_favorite"
         android:title="@string/title_favorite"/>
 </menu>

@@ -10,19 +10,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.Toast;
 import com.framgia.moviedb_27.R;
+import com.framgia.moviedb_27.data.repository.MovieRepository;
 import com.framgia.moviedb_27.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mActionBarDrawerToggle;
     private NavigationView mNavigationView;
+    private MainViewModel mMainViewModel;
     private ActivityMainBinding mActivityMainBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setView();
-        MainViewModel mainViewModel = new MainViewModel(this.getApplicationContext());
-        mActivityMainBinding.setViewModel(mainViewModel);
         setListenerForMenu();
     }
 
@@ -51,7 +51,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setView() {
+        MovieRepository.RemoteSource remoteSource = new MovieRepository.RemoteSource();
+
+        mMainViewModel =
+                new MainViewModel(this.getApplicationContext(), remoteSource, new MovieAdapter(),
+                        new MovieAdapter(), new MovieAdapter(), new MovieAdapter());
         mActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        mActivityMainBinding.setViewModel(mMainViewModel);
+
         DrawerLayout drawerLayout = mActivityMainBinding.layoutDrawer;
         mNavigationView = mActivityMainBinding.navigationView;
         mActionBarDrawerToggle =
@@ -69,4 +76,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
