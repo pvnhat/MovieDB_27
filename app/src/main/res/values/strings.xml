@@ -7,4 +7,9 @@
     <string name="title_actor">Actor</string>
     <string name="title_producer">Producer</string>
     <string name="title_favorite">Favorite</string>
+    <string name="title_popular">Popular Movie</string>
+    <string name="title_load_more">Load More</string>
+    <string name="title_top_rate">Top Rate Movie</string>
+    <string name="title_up_coming">Up Comming Movie</string>
+    <string name="title_now_playing">Now Playing Movie</string>
 </resources>
