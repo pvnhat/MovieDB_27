@@ -16,4 +16,5 @@
     <dimen name="dp_210">210dp</dimen>
     <dimen name="dp_15">15dp</dimen>
     <dimen name="dp_40">40dp</dimen>
+    <dimen name="dp_8">8dp</dimen>
 </resources>
