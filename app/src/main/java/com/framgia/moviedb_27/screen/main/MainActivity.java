@@ -4,20 +4,35 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.SearchView;
 import android.widget.Toast;
 import com.framgia.moviedb_27.R;
 import com.framgia.moviedb_27.data.repository.MovieRepository;
 import com.framgia.moviedb_27.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+        implements ViewPager.OnPageChangeListener, SearchView.OnQueryTextListener {
+
+    private static final int NUMBER_OF_BANNER = 5;
+    private static final int MARGIN_LEFT_RIGHT_DOTS = 4;
+
     private ActionBarDrawerToggle mActionBarDrawerToggle;
     private NavigationView mNavigationView;
     private MainViewModel mMainViewModel;
     private ActivityMainBinding mActivityMainBinding;
+    private LinearLayout mLinearDots;
+    private SearchView mSearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +68,11 @@ public class MainActivity extends AppCompatActivity {
     private void setView() {
         MovieRepository.RemoteSource remoteSource = new MovieRepository.RemoteSource();
 
+        MainPagerAdapter mainPagerAdapter = new MainPagerAdapter(this.getApplicationContext());
         mMainViewModel =
                 new MainViewModel(this.getApplicationContext(), remoteSource, new MovieAdapter(),
-                        new MovieAdapter(), new MovieAdapter(), new MovieAdapter());
+                        new MovieAdapter(), new MovieAdapter(), new MovieAdapter(),
+                        mainPagerAdapter);
         mActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         mActivityMainBinding.setViewModel(mMainViewModel);
 
@@ -67,6 +84,10 @@ public class MainActivity extends AppCompatActivity {
         mActionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        mLinearDots = mActivityMainBinding.linearDots;
+        mActivityMainBinding.viewpagerBanner.setOnPageChangeListener(this);
+        onCreateDots(0);
     }
 
     @Override
@@ -77,4 +98,66 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        onCreateDots(position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
+    private void onCreateDots(int currentPosition) {
+        if (mLinearDots != null) {
+            mLinearDots.removeAllViews();
+        }
+        ImageView[] imageDots = new ImageView[NUMBER_OF_BANNER];
+
+        for (int i = 0; i < NUMBER_OF_BANNER; i++) {
+            imageDots[i] = new ImageView(this);
+            if (i == currentPosition) {
+                imageDots[i].setImageDrawable(
+                        ContextCompat.getDrawable(this, R.drawable.active_dots));
+            } else {
+                imageDots[i].setImageDrawable(
+                        ContextCompat.getDrawable(this, R.drawable.unactive_dots));
+            }
+            LinearLayout.LayoutParams layoutParams =
+                    new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(MARGIN_LEFT_RIGHT_DOTS, 0, MARGIN_LEFT_RIGHT_DOTS, 0);
+            mLinearDots.addView(imageDots[i], layoutParams);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_menu, menu);
+        MenuItem menuItem = menu.findItem(R.id.search_view_menu);
+        mSearchView = (SearchView) menuItem.getActionView();
+        mSearchView.setOnQueryTextListener(this);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        mSearchView.setQuery("", false);
+        mSearchView.setIconified(true);
+
+        //do something here
+
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s) {
+        return false;
+    }
 }

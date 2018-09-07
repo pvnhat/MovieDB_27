@@ -20,11 +20,12 @@ public class MainViewModel extends BaseViewModel {
     private MovieRepository.RemoteSource mRemoteSource;
     private MovieAdapter mMovieAdapterPopular, mMovieAdapterTopRate, mMovieAdapterUpcoming,
             mMovieAdapterNowplaying;
+    private MainPagerAdapter mMainPagerAdapter;
     private CompositeDisposable mCompositeDisposable;
 
     public MainViewModel(Context context, MovieRepository.RemoteSource remoteSource,
             MovieAdapter movieAdapterPopular, MovieAdapter movieAdapterTopRate,
-            MovieAdapter movieAdapterUpcoming, MovieAdapter movieAdapterNowplaying) {
+            MovieAdapter movieAdapterUpcoming, MovieAdapter movieAdapterNowplaying ,MainPagerAdapter mainPagerAdapter) {
         mContext = context;
         mRemoteSource = remoteSource;
         mMovieAdapterPopular = movieAdapterPopular;
@@ -32,6 +33,7 @@ public class MainViewModel extends BaseViewModel {
         mMovieAdapterUpcoming = movieAdapterUpcoming;
         mMovieAdapterNowplaying = movieAdapterNowplaying;
         mCompositeDisposable = new CompositeDisposable();
+        mMainPagerAdapter = mainPagerAdapter;
         loadData();
     }
 
@@ -155,6 +157,10 @@ public class MainViewModel extends BaseViewModel {
         getDataMovieNowPlaying(Constants.NUM_ONE);
         getDataMovieTopRate(Constants.NUM_ONE);
         getDataMovieUpComing(Constants.NUM_ONE);
+    }
+
+    public MainPagerAdapter getMainPagerAdapter() {
+        return mMainPagerAdapter;
     }
 
     @Override
