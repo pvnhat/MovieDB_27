@@ -1,12 +1,16 @@
 package com.framgia.moviedb_27.screen.main;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.Toast;
+import com.framgia.moviedb_27.R;
 import com.framgia.moviedb_27.data.model.MoreMovie;
 import com.framgia.moviedb_27.data.model.Movie;
 import com.framgia.moviedb_27.data.repository.MovieRepository;
 import com.framgia.moviedb_27.screen.BaseViewModel;
+import com.framgia.moviedb_27.screen.list_movie_screen.ListMovieActivity;
 import com.framgia.moviedb_27.utils.Constants;
+import com.framgia.moviedb_27.utils.TypeCategory;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -14,7 +18,9 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import java.util.List;
 
-public class MainViewModel extends BaseViewModel {
+public class MainViewModel extends BaseViewModel implements OnClickListener.OnItemClickListener {
+
+    public static String CATEGORY_KEY = "category";
 
     private Context mContext;
     private MovieRepository.RemoteSource mRemoteSource;
@@ -25,7 +31,8 @@ public class MainViewModel extends BaseViewModel {
 
     public MainViewModel(Context context, MovieRepository.RemoteSource remoteSource,
             MovieAdapter movieAdapterPopular, MovieAdapter movieAdapterTopRate,
-            MovieAdapter movieAdapterUpcoming, MovieAdapter movieAdapterNowplaying ,MainPagerAdapter mainPagerAdapter) {
+            MovieAdapter movieAdapterUpcoming, MovieAdapter movieAdapterNowplaying,
+            MainPagerAdapter mainPagerAdapter) {
         mContext = context;
         mRemoteSource = remoteSource;
         mMovieAdapterPopular = movieAdapterPopular;
@@ -34,6 +41,10 @@ public class MainViewModel extends BaseViewModel {
         mMovieAdapterNowplaying = movieAdapterNowplaying;
         mCompositeDisposable = new CompositeDisposable();
         mMainPagerAdapter = mainPagerAdapter;
+        mMovieAdapterPopular.setOnItemClick(this);
+        mMovieAdapterTopRate.setOnItemClick(this);
+        mMovieAdapterUpcoming.setOnItemClick(this);
+        mMovieAdapterNowplaying.setOnItemClick(this);
         loadData();
     }
 
@@ -165,5 +176,30 @@ public class MainViewModel extends BaseViewModel {
 
     @Override
     protected void onStop() {
+    }
+
+    public void onLoadMoreClicked(View view) {
+        String category = "";
+        switch (view.getId()) {
+            case R.id.button_popular:
+                category = TypeCategory.POPULAR;
+                break;
+            case R.id.button_nowplaying:
+                category = TypeCategory.NOW_PLAYING;
+                break;
+            case R.id.button_toprated:
+                category = TypeCategory.TOP_RATED;
+                break;
+            case R.id.button_upcoming:
+                category = TypeCategory.UP_COMING;
+                break;
+        }
+        mContext.startActivity(
+                ListMovieActivity.newInstance(mContext, CATEGORY_KEY, category));
+    }
+
+    @Override
+    public void onItemClick(Object movie) {
+        // do something here
     }
 }
