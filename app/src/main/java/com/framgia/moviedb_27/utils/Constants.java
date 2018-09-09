@@ -12,4 +12,7 @@ public class Constants {
     public static final String BASE_URL = "https://api.themoviedb.org/3/";
     public static final String BASE_IMAGE_LINK = "https://image.tmdb.org/t/p/w500";
     public static int NUM_ONE = 1;
+    public static String BUNDLE_TRAILER_KEY = "BUNDLE_TRAILER_KEY";
+    public static String MOVIE_VALUE = "MOVIE_VALUE";
+    public static String BASE_IMAGE_LINK_NULL = "https://image.tmdb.org/t/p/w500null";
 }

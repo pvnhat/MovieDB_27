@@ -69,7 +69,7 @@ public class Movie {
      * No args constructor for use in serialization
      */
     public String getImageUrl() {
-        return Constants.BASE_IMAGE_LINK + getPosterPath();
+        return getPosterPath();
     }
 
     /**
@@ -135,7 +135,7 @@ public class Movie {
     }
 
     public String getPosterPath() {
-        return mPosterPath;
+        return Constants.BASE_IMAGE_LINK + mPosterPath;
     }
 
     public void setPosterPath(String posterPath) {
@@ -159,7 +159,7 @@ public class Movie {
     }
 
     public String getBackdropPath() {
-        return mBackdropPath;
+        return Constants.BASE_IMAGE_LINK + mBackdropPath;
     }
 
     public void setBackdropPath(String backdropPath) {
