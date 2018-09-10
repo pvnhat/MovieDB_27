@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import com.bumptech.glide.Glide;
+import com.framgia.moviedb_27.R;
 
 public class BindingUtils {
     private BindingUtils() {
@@ -13,7 +14,11 @@ public class BindingUtils {
 
     @BindingAdapter({ "bind:imageUrl" })
     public static void loadImage(ImageView view, String imageUrl) {
-        Glide.with(view.getContext()).load(imageUrl).into(view);
+        if (imageUrl.equals(Constants.BASE_IMAGE_LINK_NULL)) {
+            view.setImageResource(R.drawable.ic_avatar);
+        } else {
+            Glide.with(view.getContext()).load(imageUrl).into(view);
+        }
     }
 
     @BindingAdapter({ "bind:recyclerAdapter" })
