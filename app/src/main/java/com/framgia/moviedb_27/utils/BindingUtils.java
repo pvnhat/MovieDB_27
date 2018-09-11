@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import com.bumptech.glide.Glide;
 import com.framgia.moviedb_27.R;
 
@@ -27,6 +28,11 @@ public class BindingUtils {
     public static void setAdapterForRecyclerView(RecyclerView recyclerView,
             RecyclerView.Adapter adapter) {
         recyclerView.setAdapter(adapter);
+    }
+
+    @BindingAdapter("bind:visibilityProgessbar")
+    public static void setVisibility(ProgressBar progressBar, boolean value) {
+        progressBar.setVisibility(value ? View.VISIBLE : View.GONE);
     }
 
     @BindingAdapter("bind:visibility")
