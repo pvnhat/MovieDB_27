@@ -5,6 +5,7 @@ import android.widget.Toast;
 import com.framgia.moviedb_27.R;
 import com.framgia.moviedb_27.data.model.MoreMovie;
 import com.framgia.moviedb_27.data.repository.MovieRepository;
+import com.framgia.moviedb_27.data.source.remote.MovieRemoteDataSource;
 import com.framgia.moviedb_27.screen.BaseViewModel;
 import com.framgia.moviedb_27.screen.main.MainViewModel;
 import com.framgia.moviedb_27.screen.main.OnClickListener;
@@ -29,7 +30,7 @@ public class ListMovieViewModel extends BaseViewModel
     public ListMovieViewModel(Context context, ListMovieAdapter listMovieAdapter) {
         mContext = context;
         mListMovieAdapter = listMovieAdapter;
-        mRepositoryRemoteSource = new MovieRepository.RemoteSource();
+        mRepositoryRemoteSource = new MovieRepository.RemoteSource(new MovieRemoteDataSource());
         mCompositeDisposable = new CompositeDisposable();
         mListMovieAdapter.setOnClickListener(this);
     }
@@ -57,9 +58,11 @@ public class ListMovieViewModel extends BaseViewModel
             observable = mRepositoryRemoteSource.getMovieByGenre(Constants.NUM_ONE,
                     Integer.parseInt(mValueString));
         } else if (mKeyString.equals(TypeCategory.CAST)) {
-            observable = mRepositoryRemoteSource.getMovieByCast(Constants.NUM_ONE, Integer.parseInt(mValueString));
+            observable = mRepositoryRemoteSource.getMovieByCast(Constants.NUM_ONE,
+                    Integer.parseInt(mValueString));
         } else if (mKeyString.equals(TypeCategory.CREW)) {
-            observable = mRepositoryRemoteSource.getMovieByCrew(Constants.NUM_ONE, Integer.parseInt(mValueString));
+            observable = mRepositoryRemoteSource.getMovieByCrew(Constants.NUM_ONE,
+                    Integer.parseInt(mValueString));
         } else {
             observable =
                     mRepositoryRemoteSource.getMovieBySearching(mValueString, Constants.NUM_ONE);

@@ -3,18 +3,19 @@ package com.framgia.moviedb_27.data.repository;
 import com.framgia.moviedb_27.data.model.MoreMovie;
 import com.framgia.moviedb_27.data.model.MorePopularActor;
 import com.framgia.moviedb_27.data.model.MoreTrailer;
+import com.framgia.moviedb_27.data.model.Movie;
 import com.framgia.moviedb_27.data.model.credit.Credit;
 import com.framgia.moviedb_27.data.source.MovieDataSource;
-import com.framgia.moviedb_27.data.source.remote.MovieRemoteDataSource;
 import io.reactivex.Observable;
+import java.util.List;
 
 public class MovieRepository {
 
     public static class RemoteSource {
         private MovieDataSource.RemoteDataSource mRemoteDataSource;
 
-        public RemoteSource() {
-            mRemoteDataSource = new MovieRemoteDataSource();
+        public RemoteSource(MovieDataSource.RemoteDataSource remoteDataSource) {
+            mRemoteDataSource = remoteDataSource;
         }
 
         public Observable<MoreMovie> getPopularMovie(int page) {
@@ -81,6 +82,26 @@ public class MovieRepository {
     }
 
     public static class LocalSource {
+        private MovieDataSource.LocalDataSource mLocalDataSource;
 
+        public LocalSource(MovieDataSource.LocalDataSource localDataSource) {
+            mLocalDataSource = localDataSource;
+        }
+
+        public void insertMovieToDatabase(Movie movie) {
+            mLocalDataSource.insertFavoriteMovie(movie);
+        }
+
+        public List<Movie> getListMovieFromDatabase() {
+            return mLocalDataSource.getFavoriteMovie();
+        }
+
+        public boolean isInFavoriteList(int movieId) {
+            return mLocalDataSource.isInFavoriteList(movieId);
+        }
+
+        public void deleteMovieFavorite(int movieId) {
+            mLocalDataSource.deleteMovieFavorite(movieId);
+        }
     }
 }

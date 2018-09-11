@@ -3,8 +3,10 @@ package com.framgia.moviedb_27.data.source;
 import com.framgia.moviedb_27.data.model.MoreMovie;
 import com.framgia.moviedb_27.data.model.MorePopularActor;
 import com.framgia.moviedb_27.data.model.MoreTrailer;
+import com.framgia.moviedb_27.data.model.Movie;
 import com.framgia.moviedb_27.data.model.credit.Credit;
 import io.reactivex.Observable;
+import java.util.List;
 
 public interface MovieDataSource {
     interface RemoteDataSource {
@@ -32,6 +34,12 @@ public interface MovieDataSource {
     }
 
     interface LocalDataSource {
+        void insertFavoriteMovie(Movie movie);
 
+        List<Movie> getFavoriteMovie();
+
+        boolean isInFavoriteList(int movieId);
+
+        void deleteMovieFavorite(int movieId);
     }
 }
