@@ -1,5 +1,6 @@
 package com.framgia.moviedb_27.data.model;
 
+import com.framgia.moviedb_27.utils.Constants;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
@@ -51,7 +52,7 @@ public class PopularActor {
     }
 
     public String getProfilePath() {
-        return mProfilePath;
+        return Constants.BASE_IMAGE_LINK + mProfilePath;
     }
 
     public void setProfilePath(String profilePath) {

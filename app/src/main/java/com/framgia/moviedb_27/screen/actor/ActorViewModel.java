@@ -25,7 +25,7 @@ public class ActorViewModel extends BaseObservable implements ItemClickListener 
     private ActorAdapter mActorAdapter;
     private CompositeDisposable mCompositeDisposable;
     private int mNumPage;
-    private boolean mIsVisible;
+    private boolean mIsVisibleProgessbar;
 
     public ActorViewModel(Context context, MovieRepository.RemoteSource remoteSource,
             ActorAdapter ActorAdapter) {
@@ -54,7 +54,7 @@ public class ActorViewModel extends BaseObservable implements ItemClickListener 
                 .subscribe(new Consumer<MorePopularActor>() {
                     @Override
                     public void accept(MorePopularActor morePopularActor) throws Exception {
-                        setVisible(true);
+                        setVisibleProgessbar(false);
                         onDataSuccess(morePopularActor.getPopularActorList());
                     }
                 }, new Consumer<Throwable>() {
@@ -67,6 +67,7 @@ public class ActorViewModel extends BaseObservable implements ItemClickListener 
     }
 
     public void onClickMore(View v) {
+        setVisibleProgessbar(true);
         getListByNumPage(mNumPage);
         mNumPage++;
     }
@@ -85,11 +86,11 @@ public class ActorViewModel extends BaseObservable implements ItemClickListener 
 
     @Bindable
     public boolean isVisible() {
-        return mIsVisible;
+        return mIsVisibleProgessbar;
     }
 
-    public void setVisible(boolean visible) {
-        mIsVisible = visible;
+    public void setVisibleProgessbar(boolean visible) {
+        mIsVisibleProgessbar = visible;
         notifyPropertyChanged(BR.visible);
     }
 }

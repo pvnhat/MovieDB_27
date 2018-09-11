@@ -18,6 +18,7 @@ public class ListMovieActivity extends AppCompatActivity {
 
     public static Intent newInstance(Context context, String key, String value) {
         Intent intent = new Intent(context, ListMovieActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(EXTRA_KEY, key);
         intent.putExtra(EXTRA_VALUE, value);
         return intent;
@@ -37,7 +38,7 @@ public class ListMovieActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String key = intent.getStringExtra(EXTRA_KEY);
         String value = intent.getStringExtra(EXTRA_VALUE);
-        mListMovieViewModel.setQueryData(key,value);
+        mListMovieViewModel.setQueryData(key, value);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(value);
 
@@ -59,7 +60,7 @@ public class ListMovieActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp(){
+    public boolean onSupportNavigateUp() {
         finish();
         return true;
     }

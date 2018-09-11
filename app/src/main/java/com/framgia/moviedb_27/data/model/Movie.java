@@ -7,7 +7,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
-public class Movie {
+public class Movie implements Parcelable{
     @SerializedName("vote_count")
     @Expose
     private Integer mVoteCount;
@@ -38,32 +38,42 @@ public class Movie {
     @SerializedName("release_date")
     @Expose
     private String mReleaseDate;
-    public final static Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
 
-        @SuppressWarnings({
-                "unchecked"
-        })
+    protected Movie(Parcel in) {
+        if (in.readByte() == 0) {
+            mVoteCount = null;
+        } else {
+            mVoteCount = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            mId = null;
+        } else {
+            mId = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            mVoteAverage = null;
+        } else {
+            mVoteAverage = in.readDouble();
+        }
+        mTitle = in.readString();
+        mPosterPath = in.readString();
+        mOriginalLanguage = in.readString();
+        mBackdropPath = in.readString();
+        mOverview = in.readString();
+        mReleaseDate = in.readString();
+    }
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
         public Movie createFromParcel(Parcel in) {
             return new Movie(in);
         }
 
+        @Override
         public Movie[] newArray(int size) {
-            return (new Movie[size]);
+            return new Movie[size];
         }
     };
-
-    protected Movie(Parcel in) {
-        mVoteCount = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        mId = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        mVoteAverage = ((Double) in.readValue((Double.class.getClassLoader())));
-        mTitle = ((String) in.readValue((String.class.getClassLoader())));
-        mPosterPath = ((String) in.readValue((String.class.getClassLoader())));
-        mOriginalLanguage = ((String) in.readValue((String.class.getClassLoader())));
-        in.readList(mGenreIds, (java.lang.Integer.class.getClassLoader()));
-        mBackdropPath = ((String) in.readValue((String.class.getClassLoader())));
-        mOverview = ((String) in.readValue((String.class.getClassLoader())));
-        mReleaseDate = ((String) in.readValue((String.class.getClassLoader())));
-    }
 
     /**
      * No args constructor for use in serialization
@@ -182,20 +192,36 @@ public class Movie {
         mReleaseDate = releaseDate;
     }
 
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(mVoteCount);
-        dest.writeValue(mId);
-        dest.writeValue(mVoteAverage);
-        dest.writeValue(mTitle);
-        dest.writeValue(mPosterPath);
-        dest.writeValue(mOriginalLanguage);
-        dest.writeList(mGenreIds);
-        dest.writeValue(mBackdropPath);
-        dest.writeValue(mOverview);
-        dest.writeValue(mReleaseDate);
-    }
-
+    @Override
     public int describeContents() {
         return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (mVoteCount == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(mVoteCount);
+        }
+        if (mId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(mId);
+        }
+        if (mVoteAverage == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(mVoteAverage);
+        }
+        dest.writeString(mTitle);
+        dest.writeString(mPosterPath);
+        dest.writeString(mOriginalLanguage);
+        dest.writeString(mBackdropPath);
+        dest.writeString(mOverview);
+        dest.writeString(mReleaseDate);
     }
 }

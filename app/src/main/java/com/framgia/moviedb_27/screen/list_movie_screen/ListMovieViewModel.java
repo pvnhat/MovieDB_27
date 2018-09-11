@@ -4,9 +4,11 @@ import android.content.Context;
 import android.widget.Toast;
 import com.framgia.moviedb_27.R;
 import com.framgia.moviedb_27.data.model.MoreMovie;
+import com.framgia.moviedb_27.data.model.Movie;
 import com.framgia.moviedb_27.data.repository.MovieRepository;
 import com.framgia.moviedb_27.data.source.remote.MovieRemoteDataSource;
 import com.framgia.moviedb_27.screen.BaseViewModel;
+import com.framgia.moviedb_27.screen.detail.DetailActivity;
 import com.framgia.moviedb_27.screen.main.MainViewModel;
 import com.framgia.moviedb_27.screen.main.OnClickListener;
 import com.framgia.moviedb_27.utils.Constants;
@@ -118,6 +120,6 @@ public class ListMovieViewModel extends BaseViewModel
 
     @Override
     public void onItemClick(Object movie) {
-
+        mContext.startActivity(DetailActivity.newInstance(mContext, (Movie) movie));
     }
 }
