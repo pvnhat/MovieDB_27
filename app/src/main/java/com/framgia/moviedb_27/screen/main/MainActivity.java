@@ -16,18 +16,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
-import android.widget.Toast;
 import com.framgia.moviedb_27.R;
 import com.framgia.moviedb_27.data.repository.MovieRepository;
+import com.framgia.moviedb_27.data.source.remote.MovieRemoteDataSource;
 import com.framgia.moviedb_27.databinding.ActivityMainBinding;
 import com.framgia.moviedb_27.screen.actor.ActorActivity;
+import com.framgia.moviedb_27.screen.favorite_screen.FavoriteActivity;
 import com.framgia.moviedb_27.screen.genre.GenreActivity;
+import com.framgia.moviedb_27.screen.list_movie_screen.ListMovieActivity;
 
 public class MainActivity extends AppCompatActivity
         implements ViewPager.OnPageChangeListener, SearchView.OnQueryTextListener {
 
     private static final int NUMBER_OF_BANNER = 5;
     private static final int MARGIN_LEFT_RIGHT_DOTS = 4;
+    private static final String SEARCH_KEY = "SEARCH_KEY";
 
     private ActionBarDrawerToggle mActionBarDrawerToggle;
     private NavigationView mNavigationView;
@@ -54,8 +57,7 @@ public class MainActivity extends AppCompatActivity
                                 startActivity(ActorActivity.getInstance(MainActivity.this));
                                 return true;
                             case R.id.button_favorite:
-                                Toast.makeText(MainActivity.this, R.string.title_favorite,
-                                        Toast.LENGTH_SHORT).show();
+                                startActivity(FavoriteActivity.newInstance(MainActivity.this));
                                 return true;
                         }
                         return false;
@@ -64,7 +66,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setView() {
-        MovieRepository.RemoteSource remoteSource = new MovieRepository.RemoteSource();
+        MovieRepository.RemoteSource remoteSource =
+                new MovieRepository.RemoteSource(new MovieRemoteDataSource());
 
         MainPagerAdapter mainPagerAdapter = new MainPagerAdapter(this.getApplicationContext());
         MainViewModel mainViewModel =
@@ -146,12 +149,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onQueryTextSubmit(String s) {
+    public boolean onQueryTextSubmit(String keyWord) {
         mSearchView.setQuery("", false);
         mSearchView.setIconified(true);
-
-        //do something here
-
+        startActivity(ListMovieActivity.newInstance(this, SEARCH_KEY, keyWord));
         return false;
     }
 

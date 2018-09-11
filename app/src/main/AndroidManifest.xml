@@ -30,6 +30,9 @@
             android:name=".screen.youtube.YoutubeActivity"
             android:screenOrientation="landscape"/>
         <activity
+            android:name=".screen.favorite_screen.FavoriteActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".screen.actor.ActorActivity"
             android:screenOrientation="portrait"/>
         <activity
