@@ -7,5 +7,9 @@
     <color name="color_white">#ffffff</color>
     <color name="color_orange_600">#f45414</color>
     <color name="color_grey_800">#424242</color>
+    <color name="color_white_100">#ffff</color>
+    <color name="color_orange_900">#ff7301</color>
+    <color name="color_grey_100">#d7d7d7</color>
+    <color name="color_brown_900">#3e2723</color>
     <color name="color_grey_400">#c4c4c4</color>
 </resources>

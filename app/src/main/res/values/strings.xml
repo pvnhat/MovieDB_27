@@ -13,5 +13,6 @@
     <string name="title_up_coming">Up Comming Movie</string>
     <string name="title_now_playing">Now Playing Movie</string>
     <string name="text_search">Search</string>
+    <string name="text_error">ERROR:</string>
     <string name="title_crew">Crew</string>
 </resources>

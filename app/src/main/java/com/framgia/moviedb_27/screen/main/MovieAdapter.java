@@ -15,6 +15,7 @@ import java.util.List;
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
     private List<Movie> mMovies;
+    private OnClickListener.OnItemClickListener mOnItemClickListener;
 
     public MovieAdapter() {
         mMovies = new ArrayList<>();
@@ -28,13 +29,17 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
+    public void setOnItemClick(OnClickListener.OnItemClickListener onItemClickListener) {
+        mOnItemClickListener = onItemClickListener;
+    }
+
     @NonNull
     @Override
     public MovieAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemRecycleviewBinding itemRecycleviewBinding =
                 DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                         R.layout.item_recycleview, parent, false);
-        return new ViewHolder(itemRecycleviewBinding);
+        return new ViewHolder(itemRecycleviewBinding, mOnItemClickListener);
     }
 
     @Override
@@ -47,21 +52,30 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         return mMovies != null ? mMovies.size() : 0;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ItemRecycleviewBinding mItemRecycleviewBinding;
+        private OnClickListener.OnItemClickListener mOnItemClickListener;
+        private Movie mMovie;
 
-        public ViewHolder(ItemRecycleviewBinding itemRecycleviewBinding) {
+        public ViewHolder(ItemRecycleviewBinding itemRecycleviewBinding,
+                OnClickListener.OnItemClickListener onItemClickListener) {
             super(itemRecycleviewBinding.getRoot());
             mItemRecycleviewBinding = itemRecycleviewBinding;
+            mOnItemClickListener = onItemClickListener;
         }
 
         public void bind(Movie movie) {
             mItemRecycleviewBinding.setMovie(movie);
             mItemRecycleviewBinding.executePendingBindings();
+            mMovie = movie;
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
+            if (mMovie != null && mOnItemClickListener != null) {
+                mOnItemClickListener.onItemClick(mMovie);
+            }
         }
     }
 }

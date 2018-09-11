@@ -70,9 +70,11 @@
                             app:layout_constraintLeft_toLeftOf="parent"
                             />
                         <Button
+                            android:id="@+id/button_popular"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/dp_40"
                             android:background="@android:color/transparent"
+                            android:onClick="@{viewModel::onLoadMoreClicked}"
                             android:text="@string/title_load_more"
                             android:textColor="@color/color_white"
                             android:textSize="@dimen/sp_10"
@@ -114,9 +116,11 @@
                             app:layout_constraintLeft_toLeftOf="parent"
                             />
                         <Button
+                            android:id="@+id/button_toprated"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/dp_40"
                             android:background="@android:color/transparent"
+                            android:onClick="@{viewModel::onLoadMoreClicked}"
                             android:text="@string/title_load_more"
                             android:textColor="@color/color_white"
                             android:textSize="@dimen/sp_10"
@@ -158,9 +162,11 @@
                             app:layout_constraintLeft_toLeftOf="parent"
                             />
                         <Button
+                            android:id="@+id/button_upcoming"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/dp_40"
                             android:background="@android:color/transparent"
+                            android:onClick="@{viewModel::onLoadMoreClicked}"
                             android:text="@string/title_load_more"
                             android:textColor="@color/color_white"
                             android:textSize="@dimen/sp_10"
@@ -201,9 +207,11 @@
                             app:layout_constraintLeft_toLeftOf="parent"
                             />
                         <Button
+                            android:id="@+id/button_nowplaying"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/dp_40"
                             android:background="@android:color/transparent"
+                            android:onClick="@{viewModel::onLoadMoreClicked}"
                             android:text="@string/title_load_more"
                             android:textColor="@color/color_white"
                             android:textSize="@dimen/sp_10"
