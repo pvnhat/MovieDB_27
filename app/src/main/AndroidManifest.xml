@@ -32,6 +32,9 @@
         <activity
             android:name=".screen.actor.ActorActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".screen.genre.GenreActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

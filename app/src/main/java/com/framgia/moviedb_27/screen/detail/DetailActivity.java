@@ -21,6 +21,5 @@ public class DetailActivity extends AppCompatActivity {
                 new DetailViewModel(this.getApplicationContext(), mMovie, new DetailActorAdapter(),
                         new DetailCrewAdapter(), new MovieRepository.RemoteSource());
         activityDetailBinding.setViewModel(detailViewModel);
-
     }
 }

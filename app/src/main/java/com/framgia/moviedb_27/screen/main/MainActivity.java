@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.framgia.moviedb_27.R;
 import com.framgia.moviedb_27.data.repository.MovieRepository;
 import com.framgia.moviedb_27.databinding.ActivityMainBinding;
+import com.framgia.moviedb_27.screen.actor.ActorActivity;
+import com.framgia.moviedb_27.screen.genre.GenreActivity;
 
 public class MainActivity extends AppCompatActivity
         implements ViewPager.OnPageChangeListener, SearchView.OnQueryTextListener {
@@ -29,8 +31,6 @@ public class MainActivity extends AppCompatActivity
 
     private ActionBarDrawerToggle mActionBarDrawerToggle;
     private NavigationView mNavigationView;
-    private MainViewModel mMainViewModel;
-    private ActivityMainBinding mActivityMainBinding;
     private LinearLayout mLinearDots;
     private SearchView mSearchView;
 
@@ -48,12 +48,10 @@ public class MainActivity extends AppCompatActivity
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.button_genre:
-                                Toast.makeText(MainActivity.this, R.string.title_genre,
-                                        Toast.LENGTH_SHORT).show();
+                                startActivity(GenreActivity.getInstance(MainActivity.this));
                                 return true;
                             case R.id.button_actor:
-                                Toast.makeText(MainActivity.this, R.string.title_actor,
-                                        Toast.LENGTH_SHORT).show();
+                                startActivity(ActorActivity.getInstance(MainActivity.this));
                                 return true;
                             case R.id.button_favorite:
                                 Toast.makeText(MainActivity.this, R.string.title_favorite,
@@ -69,15 +67,16 @@ public class MainActivity extends AppCompatActivity
         MovieRepository.RemoteSource remoteSource = new MovieRepository.RemoteSource();
 
         MainPagerAdapter mainPagerAdapter = new MainPagerAdapter(this.getApplicationContext());
-        mMainViewModel =
+        MainViewModel mainViewModel =
                 new MainViewModel(this.getApplicationContext(), remoteSource, new MovieAdapter(),
                         new MovieAdapter(), new MovieAdapter(), new MovieAdapter(),
                         mainPagerAdapter);
-        mActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        mActivityMainBinding.setViewModel(mMainViewModel);
+        ActivityMainBinding activityMainBinding =
+                DataBindingUtil.setContentView(this, R.layout.activity_main);
+        activityMainBinding.setViewModel(mainViewModel);
 
-        DrawerLayout drawerLayout = mActivityMainBinding.layoutDrawer;
-        mNavigationView = mActivityMainBinding.navigationView;
+        DrawerLayout drawerLayout = activityMainBinding.layoutDrawer;
+        mNavigationView = activityMainBinding.navigationView;
         mActionBarDrawerToggle =
                 new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(mActionBarDrawerToggle);
@@ -85,8 +84,8 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        mLinearDots = mActivityMainBinding.linearDots;
-        mActivityMainBinding.viewpagerBanner.setOnPageChangeListener(this);
+        mLinearDots = activityMainBinding.linearDots;
+        activityMainBinding.viewpagerBanner.setOnPageChangeListener(this);
         onCreateDots(0);
     }
 
