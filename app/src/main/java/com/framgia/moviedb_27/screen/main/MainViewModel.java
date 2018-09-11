@@ -8,6 +8,7 @@ import com.framgia.moviedb_27.data.model.MoreMovie;
 import com.framgia.moviedb_27.data.model.Movie;
 import com.framgia.moviedb_27.data.repository.MovieRepository;
 import com.framgia.moviedb_27.screen.BaseViewModel;
+import com.framgia.moviedb_27.screen.detail.DetailActivity;
 import com.framgia.moviedb_27.screen.list_movie_screen.ListMovieActivity;
 import com.framgia.moviedb_27.utils.Constants;
 import com.framgia.moviedb_27.utils.TypeCategory;
@@ -194,12 +195,11 @@ public class MainViewModel extends BaseViewModel implements OnClickListener.OnIt
                 category = TypeCategory.UP_COMING;
                 break;
         }
-        mContext.startActivity(
-                ListMovieActivity.newInstance(mContext, CATEGORY_KEY, category));
+        mContext.startActivity(ListMovieActivity.newInstance(mContext, CATEGORY_KEY, category));
     }
 
     @Override
     public void onItemClick(Object movie) {
-        // do something here
+        mContext.startActivity(DetailActivity.newInstance(mContext, (Movie) movie));
     }
 }

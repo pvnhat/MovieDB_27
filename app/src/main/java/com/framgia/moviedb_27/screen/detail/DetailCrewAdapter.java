@@ -9,12 +9,14 @@ import android.view.ViewGroup;
 import com.framgia.moviedb_27.R;
 import com.framgia.moviedb_27.data.model.credit.Crew;
 import com.framgia.moviedb_27.databinding.ItemCrewBinding;
+import com.framgia.moviedb_27.screen.main.OnClickListener;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DetailCrewAdapter extends RecyclerView.Adapter<DetailCrewAdapter.ViewHolder> {
 
     private List<Crew> mCrewList;
+    private OnClickListener.OnItemClickListener mOnItemClickListener;
 
     DetailCrewAdapter() {
         mCrewList = new ArrayList<>();
@@ -28,13 +30,17 @@ public class DetailCrewAdapter extends RecyclerView.Adapter<DetailCrewAdapter.Vi
         notifyDataSetChanged();
     }
 
+    public void setItemClickListener(OnClickListener.OnItemClickListener itemClickListener) {
+        mOnItemClickListener = itemClickListener;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemCrewBinding itemCrewBinding =
                 DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                         R.layout.item_crew, parent, false);
-        return new ViewHolder(itemCrewBinding);
+        return new ViewHolder(itemCrewBinding, mOnItemClickListener);
     }
 
     @Override
@@ -48,11 +54,14 @@ public class DetailCrewAdapter extends RecyclerView.Adapter<DetailCrewAdapter.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ItemCrewBinding mItemCrewBinding;
+        private ItemCrewBinding mItemCrewBinding;
+        private OnClickListener.OnItemClickListener mOnItemClickListener;
 
-        public ViewHolder(ItemCrewBinding itemCrewBinding) {
+        public ViewHolder(ItemCrewBinding itemCrewBinding,
+                OnClickListener.OnItemClickListener onItemClickListener) {
             super(itemCrewBinding.getRoot());
             mItemCrewBinding = itemCrewBinding;
+            mOnItemClickListener = onItemClickListener;
         }
 
         public void bind(Crew crew) {
@@ -63,6 +72,10 @@ public class DetailCrewAdapter extends RecyclerView.Adapter<DetailCrewAdapter.Vi
 
         @Override
         public void onClick(View v) {
+            if (mOnItemClickListener != null) {
+                mOnItemClickListener.onItemClick(
+                        mCrewList.get(getAdapterPosition()).getIdInMovie());
+            }
         }
     }
 }

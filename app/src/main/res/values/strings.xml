@@ -16,4 +16,10 @@
     <string name="text_error">ERROR:</string>
     <string name="title_crew">Crew</string>
     <string name="text_favorite">Favorite Movie</string>
+    <string name="text_null_favorite">There is no favorite movie !</string>
+    <string name="popular_actor">Popular Actor</string>
+    <string name="text_movie_detail">Movie Detail</string>
+    <string name="genre_list">Genre List</string>
+    <string name="add_favorite">Added to your favorite !</string>
+    <string name="remove_favorite">Remove from your favorite !</string>
 </resources>

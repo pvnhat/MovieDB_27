@@ -10,7 +10,9 @@ import com.framgia.moviedb_27.data.model.MorePopularActor;
 import com.framgia.moviedb_27.data.model.PopularActor;
 import com.framgia.moviedb_27.data.repository.MovieRepository;
 import com.framgia.moviedb_27.screen.ItemClickListener;
+import com.framgia.moviedb_27.screen.list_movie_screen.ListMovieActivity;
 import com.framgia.moviedb_27.utils.Constants;
+import com.framgia.moviedb_27.utils.TypeCategory;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -82,6 +84,8 @@ public class ActorViewModel extends BaseObservable implements ItemClickListener 
 
     @Override
     public void onClick(int id) {
+        mContext.startActivity(ListMovieActivity.newInstance(mContext, TypeCategory.POPULAR_ACTOR,
+                String.valueOf(id)));
     }
 
     @Bindable

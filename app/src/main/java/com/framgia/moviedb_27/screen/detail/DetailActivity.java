@@ -34,5 +34,14 @@ public class DetailActivity extends AppCompatActivity {
                         new DetailCrewAdapter(),
                         new MovieRepository.RemoteSource(new MovieRemoteDataSource()));
         activityDetailBinding.setViewModel(detailViewModel);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle(getString(R.string.text_movie_detail));
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }

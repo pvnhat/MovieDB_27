@@ -43,6 +43,7 @@
                 bind:ignore="VectorDrawableCompat"
                 bind:visibility="@{viewModel.visibleProgressBar,default= gone}"
                 />
+
             <ImageView
                 android:id="@+id/image_poster"
                 android:layout_width="@dimen/dp_130"
@@ -86,6 +87,7 @@
                 app:layout_constraintTop_toBottomOf="@id/text_title"
                 />
             <TextView
+                android:id="@+id/text_release"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_10"
@@ -94,6 +96,18 @@
                 android:textSize="@dimen/sp_20"
                 app:layout_constraintLeft_toRightOf="@id/image_poster"
                 app:layout_constraintTop_toBottomOf="@id/text_point"
+                />
+            <ImageButton
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
+                bind:resouce="@{viewModel.favorited}"
+                android:scaleType="fitXY"
+                android:onClick="@{viewModel::onFavoriteClick}"
+                android:background="@android:color/transparent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_release"
+                bind:ignore="VectorDrawableCompat"
                 />
 
             <TextView

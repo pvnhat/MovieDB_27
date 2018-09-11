@@ -7,7 +7,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
-public class Movie implements Parcelable{
+public class Movie implements Parcelable {
     @SerializedName("vote_count")
     @Expose
     private Integer mVoteCount;
@@ -148,6 +148,10 @@ public class Movie implements Parcelable{
         return Constants.BASE_IMAGE_LINK + mPosterPath;
     }
 
+    public String getFavoriteImage() {
+        return mPosterPath;
+    }
+
     public void setPosterPath(String posterPath) {
         mPosterPath = posterPath;
     }
@@ -174,6 +178,10 @@ public class Movie implements Parcelable{
 
     public void setBackdropPath(String backdropPath) {
         mBackdropPath = backdropPath;
+    }
+
+    public String getFavoriteBackdrop() {
+        return mBackdropPath;
     }
 
     public String getOverview() {

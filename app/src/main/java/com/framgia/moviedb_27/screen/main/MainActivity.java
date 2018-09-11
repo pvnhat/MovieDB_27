@@ -18,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.SearchView;
 import com.framgia.moviedb_27.R;
 import com.framgia.moviedb_27.data.repository.MovieRepository;
+import com.framgia.moviedb_27.data.source.local.MovieLocalDataSource;
+import com.framgia.moviedb_27.data.source.local.sqlite.DatabaseController;
 import com.framgia.moviedb_27.data.source.remote.MovieRemoteDataSource;
 import com.framgia.moviedb_27.databinding.ActivityMainBinding;
 import com.framgia.moviedb_27.screen.actor.ActorActivity;
@@ -41,7 +43,13 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setView();
+        initDatabase();
         setListenerForMenu();
+    }
+
+    private void initDatabase() {
+        DatabaseController databaseController = new DatabaseController(this.getApplicationContext());
+        databaseController.createTable();
     }
 
     private void setListenerForMenu() {

@@ -1,13 +1,15 @@
 package com.framgia.moviedb_27.screen.list_movie_screen;
 
 import android.content.Context;
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.widget.Toast;
+import com.framgia.moviedb_27.BR;
 import com.framgia.moviedb_27.R;
 import com.framgia.moviedb_27.data.model.MoreMovie;
 import com.framgia.moviedb_27.data.model.Movie;
 import com.framgia.moviedb_27.data.repository.MovieRepository;
 import com.framgia.moviedb_27.data.source.remote.MovieRemoteDataSource;
-import com.framgia.moviedb_27.screen.BaseViewModel;
 import com.framgia.moviedb_27.screen.detail.DetailActivity;
 import com.framgia.moviedb_27.screen.main.MainViewModel;
 import com.framgia.moviedb_27.screen.main.OnClickListener;
@@ -20,7 +22,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class ListMovieViewModel extends BaseViewModel
+public class ListMovieViewModel extends BaseObservable
         implements OnClickListener.OnItemClickListener {
 
     private Context mContext;
@@ -28,6 +30,7 @@ public class ListMovieViewModel extends BaseViewModel
     private MovieRepository.RemoteSource mRepositoryRemoteSource;
     private CompositeDisposable mCompositeDisposable;
     private String mKeyString, mValueString;
+    private boolean mIsVisible;
 
     public ListMovieViewModel(Context context, ListMovieAdapter listMovieAdapter) {
         mContext = context;
@@ -37,11 +40,9 @@ public class ListMovieViewModel extends BaseViewModel
         mListMovieAdapter.setOnClickListener(this);
     }
 
-    @Override
     protected void onStart() {
     }
 
-    @Override
     protected void onStop() {
         mCompositeDisposable.clear();
     }
@@ -49,44 +50,44 @@ public class ListMovieViewModel extends BaseViewModel
     public void setQueryData(String key, String value) {
         mKeyString = key;
         mValueString = value;
-        onInitDataRequest();
+        onInitDataRequest(Constants.NUM_ONE);
     }
 
-    private void onInitDataRequest() {
+    private void onInitDataRequest(int page) {
         Observable<MoreMovie> observable = null;
         if (mKeyString.equals(MainViewModel.CATEGORY_KEY)) {
-            observable = checkCategory();
+            observable = checkCategory(page);
         } else if (mKeyString.equals(TypeCategory.GENRE)) {
-            observable = mRepositoryRemoteSource.getMovieByGenre(Constants.NUM_ONE,
-                    Integer.parseInt(mValueString));
-        } else if (mKeyString.equals(TypeCategory.CAST)) {
-            observable = mRepositoryRemoteSource.getMovieByCast(Constants.NUM_ONE,
-                    Integer.parseInt(mValueString));
-        } else if (mKeyString.equals(TypeCategory.CREW)) {
-            observable = mRepositoryRemoteSource.getMovieByCrew(Constants.NUM_ONE,
-                    Integer.parseInt(mValueString));
-        } else {
             observable =
-                    mRepositoryRemoteSource.getMovieBySearching(mValueString, Constants.NUM_ONE);
+                    mRepositoryRemoteSource.getMovieByGenre(Integer.parseInt(mValueString), page);
+        } else if (mKeyString.equals(TypeCategory.CAST) || mKeyString.equals(
+                TypeCategory.POPULAR_ACTOR)) {
+            observable =
+                    mRepositoryRemoteSource.getMovieByCast(Integer.parseInt(mValueString), page);
+        } else if (mKeyString.equals(TypeCategory.CREW)) {
+            observable =
+                    mRepositoryRemoteSource.getMovieByCrew(Integer.parseInt(mValueString), page);
+        } else {
+            observable = mRepositoryRemoteSource.getMovieBySearching(mValueString, page);
         }
 
-        onRequestExcute(observable);
+        onRequestExcute(observable, page);
     }
 
-    private Observable<MoreMovie> checkCategory() {
+    private Observable<MoreMovie> checkCategory(int page) {
         switch (mValueString) {
             case TypeCategory.POPULAR:
-                return mRepositoryRemoteSource.getPopularMovie(Constants.NUM_ONE);
+                return mRepositoryRemoteSource.getPopularMovie(page);
             case TypeCategory.NOW_PLAYING:
-                return mRepositoryRemoteSource.getNowPlayingMovie(Constants.NUM_ONE);
+                return mRepositoryRemoteSource.getNowPlayingMovie(page);
             case TypeCategory.TOP_RATED:
-                return mRepositoryRemoteSource.getTopRatedMovie(Constants.NUM_ONE);
+                return mRepositoryRemoteSource.getTopRatedMovie(page);
             default:
-                return mRepositoryRemoteSource.getUpcomingMovie(Constants.NUM_ONE);
+                return mRepositoryRemoteSource.getUpcomingMovie(page);
         }
     }
 
-    private void onRequestExcute(Observable<MoreMovie> observable) {
+    private void onRequestExcute(Observable<MoreMovie> observable, final int page) {
         observable.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<MoreMovie>() {
@@ -97,7 +98,12 @@ public class ListMovieViewModel extends BaseViewModel
 
                     @Override
                     public void onNext(MoreMovie moreMovie) {
-                        mListMovieAdapter.updateMovieList(moreMovie.getMovieList());
+                        if (page == Constants.NUM_ONE) {
+                            mListMovieAdapter.updateMovieList(moreMovie.getMovieList());
+                        } else {
+                            mListMovieAdapter.loadMoreList(moreMovie.getMovieList());
+                            setVisible(false);
+                        }
                     }
 
                     @Override
@@ -116,6 +122,20 @@ public class ListMovieViewModel extends BaseViewModel
 
     public ListMovieAdapter getRecyclerAdapter() {
         return mListMovieAdapter;
+    }
+
+    @Bindable
+    public boolean isVisible() {
+        return mIsVisible;
+    }
+
+    public void setVisible(boolean visible) {
+        mIsVisible = visible;
+        notifyPropertyChanged(BR.visible);
+    }
+
+    public void fetchMoreData(int page) {
+        onInitDataRequest(page);
     }
 
     @Override

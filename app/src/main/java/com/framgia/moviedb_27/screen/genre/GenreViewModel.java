@@ -6,6 +6,9 @@ import com.framgia.moviedb_27.data.model.Genre;
 import com.framgia.moviedb_27.data.model.MoreGenre;
 import com.framgia.moviedb_27.data.repository.GenreRepository;
 import com.framgia.moviedb_27.screen.BaseViewModel;
+import com.framgia.moviedb_27.screen.ItemClickListener;
+import com.framgia.moviedb_27.screen.list_movie_screen.ListMovieActivity;
+import com.framgia.moviedb_27.utils.TypeCategory;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -13,7 +16,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import java.util.List;
 
-public class GenreViewModel extends BaseViewModel {
+public class GenreViewModel extends BaseViewModel implements ItemClickListener {
     private Context mContext;
     private GenreRepository mGenreRepository;
     private CompositeDisposable mCompositeDisposable;
@@ -23,6 +26,7 @@ public class GenreViewModel extends BaseViewModel {
         mContext = context;
         mGenreRepository = genreRepository;
         mGenreAdapter = genreAdapter;
+        mGenreAdapter.setItemClickListener(this);
         mCompositeDisposable = new CompositeDisposable();
         getListByNumPage();
     }
@@ -63,5 +67,11 @@ public class GenreViewModel extends BaseViewModel {
 
     @Override
     protected void onStop() {
+    }
+
+    @Override
+    public void onClick(int id) {
+        mContext.startActivity(
+                ListMovieActivity.newInstance(mContext, TypeCategory.GENRE, String.valueOf(id)));
     }
 }

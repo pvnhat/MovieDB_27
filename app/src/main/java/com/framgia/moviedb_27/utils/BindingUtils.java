@@ -40,6 +40,11 @@ public class BindingUtils {
         imageButton.setVisibility(value ? View.VISIBLE : View.GONE);
     }
 
+    @BindingAdapter("bind:resouce")
+    public static void setResouces(ImageButton imageButton, boolean value) {
+        imageButton.setImageResource(value ? R.drawable.ic_heart_active : R.drawable.ic_heart);
+    }
+
     @BindingAdapter("bind:onPageChangeListener")
     public static void setOnPageChangeListener(ViewPager viewPager,
             ViewPager.OnPageChangeListener listener) {

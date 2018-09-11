@@ -26,11 +26,20 @@ public class ActorActivity extends AppCompatActivity {
         ActorViewModel actorViewModel = new ActorViewModel(this.getApplicationContext(),
                 new MovieRepository.RemoteSource(new MovieRemoteDataSource()), new ActorAdapter());
         activityActorBinding.setViewModel(actorViewModel);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle(getString(R.string.popular_actor));
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }

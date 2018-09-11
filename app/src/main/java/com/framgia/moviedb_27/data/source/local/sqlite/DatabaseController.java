@@ -76,13 +76,13 @@ public class DatabaseController implements SqliteController {
                         + "' , '"
                         + movie.getTitle()
                         + "' , '"
-                        + movie.getPosterPath()
+                        + movie.getFavoriteImage()
                         + "' , '"
                         + movie.getOriginalLanguage()
                         + "' , '"
                         + genreString
                         + "' , '"
-                        + movie.getBackdropPath()
+                        + movie.getFavoriteBackdrop()
                         + "' , '"
                         + movie.getOverview()
                         + "' , '"

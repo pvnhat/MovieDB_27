@@ -26,11 +26,20 @@ public class GenreActivity extends AppCompatActivity {
                 new GenreViewModel(this.getApplicationContext(), new GenreRepository(),
                         new GenreAdapter());
         activityGenreBinding.setViewModel(genreViewModel);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle(getString(R.string.genre_list));
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }

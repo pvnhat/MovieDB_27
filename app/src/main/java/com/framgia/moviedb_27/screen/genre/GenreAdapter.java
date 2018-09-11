@@ -9,12 +9,14 @@ import android.view.ViewGroup;
 import com.framgia.moviedb_27.R;
 import com.framgia.moviedb_27.data.model.Genre;
 import com.framgia.moviedb_27.databinding.ItemGenreBinding;
+import com.framgia.moviedb_27.screen.ItemClickListener;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> {
 
     private List<Genre> mGenres;
+    private ItemClickListener mItemClickListener;
 
     GenreAdapter() {
         mGenres = new ArrayList<>();
@@ -28,13 +30,17 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
+    public void setItemClickListener(ItemClickListener itemClickListener) {
+        mItemClickListener = itemClickListener;
+    }
+
     @NonNull
     @Override
     public GenreAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemGenreBinding itemGenreBinding =
                 DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                         R.layout.item_genre, parent, false);
-        return new ViewHolder(itemGenreBinding);
+        return new ViewHolder(itemGenreBinding, mItemClickListener);
     }
 
     @Override
@@ -49,10 +55,12 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ItemGenreBinding mItemGenreBinding;
+        private ItemClickListener mItemClickListener;
 
-        public ViewHolder(ItemGenreBinding itemGenreBinding) {
+        public ViewHolder(ItemGenreBinding itemGenreBinding, ItemClickListener itemClickListener) {
             super(itemGenreBinding.getRoot());
             mItemGenreBinding = itemGenreBinding;
+            mItemClickListener = itemClickListener;
         }
 
         public void bind(Genre genre) {
@@ -63,6 +71,9 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
 
         @Override
         public void onClick(View v) {
+            if (mItemClickListener != null) {
+                mItemClickListener.onClick(mGenres.get(getAdapterPosition()).getId());
+            }
         }
     }
 }

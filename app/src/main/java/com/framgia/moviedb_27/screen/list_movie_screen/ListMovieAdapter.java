@@ -29,6 +29,13 @@ public class ListMovieAdapter extends RecyclerView.Adapter<ListMovieAdapter.View
         notifyDataSetChanged();
     }
 
+    public void loadMoreList(List<Movie> movieList) {
+        if (movieList != null) {
+            mMovieList.addAll(movieList);
+            notifyDataSetChanged();
+        }
+    }
+
     public void setOnClickListener(OnClickListener.OnItemClickListener onItemClickListener) {
         mOnItemClickListener = onItemClickListener;
     }
